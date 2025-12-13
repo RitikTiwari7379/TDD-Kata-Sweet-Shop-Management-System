@@ -1,0 +1,107 @@
+
+> sweet-shop-backend@1.0.0 test
+> jest --coverage
+
+PASS src/tests/sweetService.test.ts
+  Sweet Service - TDD
+    Create Sweet
+      ✓ should create a new sweet with valid data (11 ms)
+      ✓ should create sweet with minimum required fields (3 ms)
+      ✓ should throw error if name is missing (3 ms)
+      ✓ should throw error if price is negative (1 ms)
+      ✓ should throw error if quantity is negative (1 ms)
+      ✓ should throw error if sweet name already exists (14 ms)
+    Get All Sweets
+      ✓ should return all sweets (8 ms)
+      ✓ should return empty array when no sweets exist (5 ms)
+    Get Sweet By ID
+      ✓ should return sweet by valid ID (4 ms)
+      ✓ should return null for non-existent ID (1 ms)
+      ✓ should throw error for invalid ID format (6 ms)
+    Update Sweet
+      ✓ should update sweet with valid data (5 ms)
+      ✓ should update only specified fields (2 ms)
+      ✓ should return null for non-existent sweet (2 ms)
+      ✓ should throw error when updating with negative price (2 ms)
+    Delete Sweet
+      ✓ should delete sweet by ID (3 ms)
+      ✓ should return null when deleting non-existent sweet (1 ms)
+    Search Sweets
+      ✓ should search sweets by name (5 ms)
+      ✓ should search sweets by category (4 ms)
+      ✓ should search sweets by price range (4 ms)
+      ✓ should search with multiple criteria (3 ms)
+      ✓ should return all sweets when no search criteria provided (3 ms)
+      ✓ should return empty array when no matches found (3 ms)
+
+PASS src/tests/inventoryService.test.ts
+  Inventory Service - TDD
+    Purchase Sweet
+      ✓ should successfully purchase sweet with available quantity (18 ms)
+      ✓ should decrease sweet quantity after purchase (7 ms)
+      ✓ should create purchase record in database (8 ms)
+      ✓ should throw error when quantity is insufficient (12 ms)
+      ✓ should throw error when sweet does not exist (3 ms)
+      ✓ should throw error when purchase quantity is zero or negative (2 ms)
+      ✓ should calculate total price correctly (5 ms)
+      ✓ should allow multiple purchases by same user (7 ms)
+    Restock Sweet
+      ✓ should successfully restock sweet (3 ms)
+      ✓ should increase sweet quantity after restock (4 ms)
+      ✓ should throw error when sweet does not exist (1 ms)
+      ✓ should throw error when restock quantity is zero or negative (3 ms)
+      ✓ should handle large restock quantities (3 ms)
+    Get Purchase History
+      ✓ should return purchase history for a user (12 ms)
+      ✓ should return empty array when user has no purchases (2 ms)
+      ✓ should populate sweet details in purchase history (5 ms)
+      ✓ should return purchases sorted by date (newest first) (111 ms)
+
+PASS src/tests/authService.test.ts
+  Auth Service - TDD
+    User Registration
+      ✓ should register a new user with valid data (155 ms)
+      ✓ should hash the password before saving (120 ms)
+      ✓ should throw error if email already exists (123 ms)
+      ✓ should throw error if email is invalid (4 ms)
+      ✓ should throw error if password is too short (1 ms)
+      ✓ should throw error if required fields are missing (2 ms)
+    User Login
+      ✓ should login user with correct credentials (231 ms)
+      ✓ should throw error with incorrect password (224 ms)
+      ✓ should throw error with non-existent email (114 ms)
+      ✓ should throw error with empty credentials (124 ms)
+    JWT Token Generation
+      ✓ should generate a valid JWT token (1 ms)
+      ✓ should create token that can be verified (2 ms)
+
+-------------------------|---------|----------|---------|---------|-------------------
+File                     | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------------|---------|----------|---------|---------|-------------------
+All files                |   35.31 |    30.23 |      50 |   34.85 |                   
+ config                  |       0 |        0 |       0 |       0 |                   
+  database.ts            |       0 |        0 |       0 |       0 | 1-17              
+ controllers             |       0 |        0 |       0 |       0 |                   
+  authController.ts      |       0 |        0 |       0 |       0 | 2-47              
+  inventoryController.ts |       0 |        0 |       0 |       0 | 3-77              
+  sweetController.ts     |       0 |        0 |       0 |       0 | 3-116             
+ middleware              |       0 |        0 |       0 |       0 |                   
+  auth.ts                |       0 |        0 |       0 |       0 | 2-38              
+ models                  |   94.73 |        0 |     100 |     100 |                   
+  Purchase.ts            |     100 |      100 |     100 |     100 |                   
+  Sweet.ts               |     100 |      100 |     100 |     100 |                   
+  User.ts                |   91.66 |        0 |     100 |     100 | 45                
+ routes                  |       0 |      100 |     100 |       0 |                   
+  authRoutes.ts          |       0 |      100 |     100 |       0 | 1-9               
+  inventoryRoutes.ts     |       0 |      100 |     100 |       0 | 1-18              
+  sweetRoutes.ts         |       0 |      100 |     100 |       0 | 1-24              
+ services                |   95.28 |    86.66 |     100 |   94.68 |                   
+  authService.ts         |     100 |      100 |     100 |     100 |                   
+  inventoryService.ts    |   94.11 |    71.42 |     100 |   93.54 | 15,55             
+  sweetService.ts        |   93.02 |    81.81 |     100 |   91.89 | 37,57,71          
+-------------------------|---------|----------|---------|---------|-------------------
+Test Suites: 3 passed, 3 total
+Tests:       52 passed, 52 total
+Snapshots:   0 total
+Time:        6.738 s
+Ran all test suites.
