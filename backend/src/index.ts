@@ -27,7 +27,7 @@ app.use('/api/sweets', inventoryRoutes);
 // Connect to MongoDB
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
