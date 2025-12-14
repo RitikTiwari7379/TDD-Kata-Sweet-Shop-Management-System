@@ -2,8 +2,33 @@
 
 **TDD Kata Project**: A full-stack web application for managing a sweet shop, built with Node.js, Express, MongoDB, and React. This project demonstrates Test-Driven Development (TDD) practices with comprehensive test coverage.
 
+## 🌐 Live Demo
+
+- **Frontend**: [https://sweet-shop-management509.vercel.app/](https://sweet-shop-management509.vercel.app/)
+- **Backend API**: [https://tdd-kata-sweet-shop-management-system-qm1i.onrender.com](https://tdd-kata-sweet-shop-management-system-qm1i.onrender.com)
+
+### 🔑 Admin Test Credentials
+
+For security reasons, admin role assignment is restricted and managed directly in the database. You can test admin functionality using these credentials:
+
+```
+Email: xyz@gmail.com
+Password: 123456
+```
+
+**Note**: These credentials will be removed after evaluation to prevent unauthorized admin access.
+
+**Why not allow admin registration through UI?**  
+Allowing users to self-assign admin roles via a registration form would be a critical security vulnerability. Admin privileges should only be granted through:
+- Direct database updates (MongoDB command)
+- Secure backend administrative scripts
+- Manual verification by system administrators
+
+This approach follows security best practices by preventing privilege escalation attacks.
+
 ## 📋 Table of Contents
 
+- [Live Demo](#live-demo)
 - [Overview](#overview)
 - [Technologies Used](#technologies-used)
 - [API Endpoints](#api-endpoints)
@@ -175,11 +200,32 @@ This will add 8 sample sweets with images to your database. ✅
 
 #### 5. Create Admin User
 
-After registering your first user, make them an admin:
+**Security Note**: Admin role assignment is intentionally restricted and must be done manually in the database. This prevents unauthorized privilege escalation through the registration form.
+
+**Why not allow admin role selection during registration?**  
+Allowing users to self-assign the admin role via UI would create a critical security vulnerability. Anyone could gain administrative privileges and:
+- Delete all products
+- Access sensitive data
+- Manipulate inventory
+- Compromise the entire system
+
+**Proper way to create admins:**
+
+After registering your first user through the UI, manually grant admin privileges using MongoDB:
 
 ```bash
-# Connect to MongoDB
-mongosh "your-mongodb-connection-string"
+# Option 1: Using MongoDB Atlas Web Interface
+# 1. Go to your cluster in MongoDB Atlas
+# 2. Click "Browse Collections"
+# 3. Navigate to sweet-shop database → users collection
+# 4. Find your user document
+# 5. Click "Edit Document"
+# 6. Change role from "user" to "admin"
+# 7. Click "Update"
+
+# Option 2: Using MongoDB Shell (mongosh)
+# Connect to your database
+mongosh "your-mongodb-atlas-connection-string"
 
 # Or if using local MongoDB:
 mongosh
@@ -195,6 +241,8 @@ db.users.updateOne(
 
 exit
 ```
+
+This approach follows security best practices by ensuring only database administrators can grant elevated privileges.
 
 ### First-Time Usage
 
