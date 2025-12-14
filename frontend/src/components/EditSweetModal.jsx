@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { createSweet } from '../services/sweetService';
+import { useState, useEffect } from 'react';
+import { updateSweet } from '../services/sweetService';
 
-function AddSweetModal({ onClose, onSuccess }) {
+function EditSweetModal({ sweet, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -12,6 +12,19 @@ function AddSweetModal({ onClose, onSuccess }) {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (sweet) {
+      setFormData({
+        name: sweet.name || '',
+        category: sweet.category || '',
+        price: sweet.price || '',
+        quantity: sweet.quantity || '',
+        description: sweet.description || '',
+        imageUrl: sweet.imageUrl || ''
+      });
+    }
+  }, [sweet]);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,7 +39,7 @@ function AddSweetModal({ onClose, onSuccess }) {
     setLoading(true);
 
     try {
-      await createSweet({
+      await updateSweet(sweet._id, {
         name: formData.name,
         category: formData.category,
         price: parseFloat(formData.price),
@@ -36,7 +49,7 @@ function AddSweetModal({ onClose, onSuccess }) {
       });
       onSuccess();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to add sweet');
+      setError(err.response?.data?.message || 'Failed to update sweet');
     } finally {
       setLoading(false);
     }
@@ -51,11 +64,11 @@ function AddSweetModal({ onClose, onSuccess }) {
         className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-2xl">
+        <div className="sticky top-0 bg-gradient-to-r from-amber-500 to-orange-600 text-white p-6 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-display font-bold flex items-center space-x-2">
-              <span>➕</span>
-              <span>Add New Sweet</span>
+              <span>✏️</span>
+              <span>Edit Sweet</span>
             </h2>
             <button
               onClick={onClose}
@@ -88,7 +101,6 @@ function AddSweetModal({ onClose, onSuccess }) {
               onChange={handleChange}
               required
               className="input-field"
-              placeholder="e.g., Gulab Jamun"
             />
           </div>
 
@@ -104,7 +116,6 @@ function AddSweetModal({ onClose, onSuccess }) {
               onChange={handleChange}
               required
               className="input-field"
-              placeholder="e.g., Traditional"
             />
           </div>
 
@@ -117,13 +128,12 @@ function AddSweetModal({ onClose, onSuccess }) {
                 type="number"
                 id="price"
                 name="price"
-                min="0"
-                step="0.01"
                 value={formData.price}
                 onChange={handleChange}
+                step="0.01"
+                min="0"
                 required
                 className="input-field"
-                placeholder="299"
               />
             </div>
             <div>
@@ -134,13 +144,12 @@ function AddSweetModal({ onClose, onSuccess }) {
                 type="number"
                 id="quantity"
                 name="quantity"
-                min="0"
-                step="0.5"
                 value={formData.quantity}
                 onChange={handleChange}
+                step="0.5"
+                min="0"
                 required
                 className="input-field"
-                placeholder="25"
               />
             </div>
           </div>
@@ -156,7 +165,6 @@ function AddSweetModal({ onClose, onSuccess }) {
               onChange={handleChange}
               rows="3"
               className="input-field resize-none"
-              placeholder="Describe your sweet..."
             />
           </div>
 
@@ -186,18 +194,18 @@ function AddSweetModal({ onClose, onSuccess }) {
             </button>
             <button
               type="submit"
-              className="btn-primary flex-1 flex items-center justify-center space-x-2"
+              className="btn-warning flex-1 flex items-center justify-center space-x-2"
               disabled={loading}
             >
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  <span>Adding...</span>
+                  <span>Updating...</span>
                 </>
               ) : (
                 <>
-                  <span>✨</span>
-                  <span>Add Sweet</span>
+                  <span>💾</span>
+                  <span>Update Sweet</span>
                 </>
               )}
             </button>
@@ -208,4 +216,4 @@ function AddSweetModal({ onClose, onSuccess }) {
   );
 }
 
-export default AddSweetModal;
+export default EditSweetModal;

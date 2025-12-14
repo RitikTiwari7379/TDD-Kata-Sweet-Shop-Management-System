@@ -1,32 +1,28 @@
 # 🍬 Sweet Shop Management System
 
-A full-stack web application for managing a sweet shop, built with Node.js, Express, MongoDB, and React. This project demonstrates Test-Driven Development (TDD) practices with comprehensive test coverage.
+**TDD Kata Project**: A full-stack web application for managing a sweet shop, built with Node.js, Express, MongoDB, and React. This project demonstrates Test-Driven Development (TDD) practices with comprehensive test coverage.
 
 ## 📋 Table of Contents
 
-- [Features](#features)
+- [Overview](#overview)
 - [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
+- [Getting Started](#getting-started)
+- [Testing & Test Report](#testing--test-report)
 - [Screenshots](#screenshots)
 - [My AI Usage](#my-ai-usage)
 
-## ✨ Features
+## 📖 Overview
 
-### User Features
-- **Authentication**: Secure user registration and login with JWT tokens
-- **Browse Sweets**: View all available sweets with details
-- **Search & Filter**: Search sweets by name, category, or price range
-- **Purchase**: Buy sweets with real-time inventory updates
-- **Purchase History**: Track your purchase history
+A full-stack **Sweet Shop Management System** built following **Test-Driven Development (TDD)** principles as part of a coding kata exercise. This application allows users to browse, search, and purchase sweets, while administrators can manage inventory through a complete CRUD interface.
 
-### Admin Features
-- **Add Sweets**: Create new sweet products
-- **Update Sweets**: Modify existing sweet details
-- **Delete Sweets**: Remove sweets from inventory
-- **Restock**: Increase inventory quantities
+### Key Features
+- 🔐 **Secure Authentication**: JWT-based user registration and login
+- 🍭 **Sweet Management**: Browse, search, and filter sweets by name, category, or price (per kg)
+- 🛒 **Purchase System**: Buy sweets by weight (kg) with real-time inventory updates
+- 👨‍💼 **Admin Dashboard**: Complete CRUD operations for inventory management
+- ⚖️ **Weight-Based Pricing**: All sweets priced and sold per kilogram
+- ✅ **Test-Driven**: 52 comprehensive tests with 95%+ coverage
 
 ## 🛠 Technologies Used
 
@@ -45,240 +41,293 @@ A full-stack web application for managing a sweet shop, built with Node.js, Expr
 - **React Router** - Navigation
 - **Axios** - HTTP client
 - **Vite** - Build tool
-- **CSS3** - Styling
+- **Tailwind CSS** - Styling
 
-## 📁 Project Structure
+## 🔌 API Endpoints
 
-```
-sweet-shop-tdd/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   ├── database.ts
-│   │   │   └── migrate.ts
-│   │   ├── controllers/
-│   │   │   ├── authController.ts
-│   │   │   ├── sweetController.ts
-│   │   │   └── inventoryController.ts
-│   │   ├── middleware/
-│   │   │   └── auth.ts
-│   │   ├── models/
-│   │   │   ├── User.ts
-│   │   │   ├── Sweet.ts
-│   │   │   └── Purchase.ts
-│   │   ├── routes/
-│   │   │   ├── authRoutes.ts
-│   │   │   ├── sweetRoutes.ts
-│   │   │   └── inventoryRoutes.ts
-│   │   ├── services/
-│   │   │   ├── authService.ts
-│   │   │   ├── sweetService.ts
-│   │   │   └── inventoryService.ts
-│   │   ├── tests/
-│   │   │   ├── authService.test.ts
-│   │   │   ├── sweetService.test.ts
-│   │   │   └── inventoryService.test.ts
-│   │   └── index.ts
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── jest.config.js
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Login.jsx
-│   │   │   ├── Register.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── SweetCard.jsx
-│   │   │   ├── AddSweetModal.jsx
-│   │   │   └── ProtectedRoute.jsx
-│   │   ├── services/
-│   │   │   ├── api.js
-│   │   │   ├── authService.js
-│   │   │   └── sweetService.js
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json
-│   └── vite.config.js
-└── README.md
-```
+All endpoints follow RESTful conventions as specified in the assignment:
+
+### Authentication Endpoints
+- **POST** `/api/auth/register` - Register a new user
+- **POST** `/api/auth/login` - Login and receive JWT token
+
+### Sweet Management Endpoints (Protected)
+- **GET** `/api/sweets` - Get all sweets (requires authentication)
+- **GET** `/api/sweets/search` - Search sweets by name, category, or price range (requires authentication)
+- **GET** `/api/sweets/:id` - Get single sweet by ID (requires authentication)
+- **POST** `/api/sweets` - Add new sweet (**Admin only**)
+- **PUT** `/api/sweets/:id` - Update sweet details (**Admin only**)
+- **DELETE** `/api/sweets/:id` - Delete sweet (**Admin only**)
+
+### Inventory Endpoints (Protected)
+- **POST** `/api/sweets/:id/purchase` - Purchase sweet (decreases quantity)
+- **POST** `/api/sweets/:id/restock` - Restock sweet (**Admin only**, increases quantity)
+- **GET** `/api/sweets/purchases` - Get user's purchase history
+
+**Note**: All protected endpoints require a valid JWT token in the `Authorization` header as `Bearer <token>`.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- MongoDB (v5.0 or higher)
-- npm or yarn
+Before you begin, ensure you have the following installed:
+- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
+- **MongoDB Atlas Account** (Free tier works) - [Sign up](https://www.mongodb.com/cloud/atlas/register)
+- **Git** - [Download](https://git-scm.com/)
 
-### Backend Setup
+### Quick Setup (5 Minutes)
 
-1. **Navigate to backend directory**
-   ```bash
-   cd backend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Create .env file**
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **Update .env with your configuration**
-   ```env
-   NODE_ENV=development
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/sweet-shop
-   JWT_SECRET=your-secret-key-change-this-in-production
-   JWT_EXPIRE=7d
-   ```
-
-5. **Start MongoDB**
-   ```bash
-   # On macOS with Homebrew
-   brew services start mongodb-community
-   
-   # Or run directly
-   mongod
-   ```
-
-6. **Run migrations (optional)**
-   ```bash
-   npm run migrate
-   ```
-
-7. **Start the backend server**
-   ```bash
-   # Development mode with hot reload
-   npm run dev
-   
-   # Production mode
-   npm run build
-   npm start
-   ```
-
-   Server will run on `http://localhost:5000`
-
-### Frontend Setup
-
-1. **Navigate to frontend directory**
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-   Application will run on `http://localhost:5173`
-
-### Creating an Admin User
-
-To create an admin user, you can register a new user and then update their role in MongoDB:
-
+#### 1. Clone the Repository
 ```bash
-# Connect to MongoDB
-mongosh
-
-# Use the sweet-shop database
-use sweet-shop
-
-# Update user role to admin
-db.users.updateOne(
-  { email: "admin@example.com" },
-  { $set: { role: "admin" } }
-)
+git clone https://github.com/RitikTiwari7379/TDD-Kata-Sweet-Shop-Management-System.git
+cd TDD-Kata-Sweet-Shop-Management-System
 ```
 
-## 📡 API Endpoints
+#### 2. Backend Setup
 
-### Authentication
+```bash
+# Navigate to backend directory
+cd backend
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Register new user | No |
-| POST | `/api/auth/login` | Login user | No |
+# Install dependencies
+npm install
 
-### Sweets
+# Create .env file from example
+cp .env.example .env
+```
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/sweets` | Get all sweets | Yes |
-| GET | `/api/sweets/:id` | Get sweet by ID | Yes |
-| GET | `/api/sweets/search` | Search sweets | Yes |
-| POST | `/api/sweets` | Create sweet | Admin |
-| PUT | `/api/sweets/:id` | Update sweet | Admin |
-| DELETE | `/api/sweets/:id` | Delete sweet | Admin |
+**Configure your `.env` file:**
 
-### Inventory
+```env
+NODE_ENV=development
+PORT=5001
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster0.xxxxx.mongodb.net/sweet-shop?retryWrites=true&w=majority
+JWT_SECRET=your-secret-key-change-this-in-production
+JWT_EXPIRE=7d
+```
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/sweets/:id/purchase` | Purchase sweet | Yes |
-| POST | `/api/sweets/:id/restock` | Restock sweet | Admin |
-| GET | `/api/sweets/purchases` | Get purchase history | Yes |
+**MongoDB Connection Options:**
 
-## 🧪 Testing
+**Option A: MongoDB Atlas (Recommended - Cloud)**
+1. Create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Create a database user with password
+3. Whitelist your IP address (or use 0.0.0.0/0 for development)
+4. Get your connection string from Atlas dashboard
+5. Replace `your-username`, `your-password`, and cluster URL in `.env`
+6. Add `/sweet-shop` database name after `.net/`
 
-This project follows Test-Driven Development (TDD) principles. All business logic was written tests-first.
+**Option B: Local MongoDB**
+```bash
+# Install MongoDB (macOS)
+brew tap mongodb/brew
+brew install mongodb-community
 
-### Run Backend Tests
+# Start MongoDB
+brew services start mongodb-community
+
+# Use local connection string in .env:
+MONGODB_URI=mongodb://localhost:27017/sweet-shop
+```
+
+**Start the backend server:**
+```bash
+npm run dev
+```
+
+Backend will run on `http://localhost:5001` ✅
+
+#### 3. Frontend Setup
+
+Open a **new terminal window**:
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Frontend will run on `http://localhost:5173` ✅
+
+#### 4. Seed Sample Data (Recommended)
+
+Populate your database with sample sweets for immediate testing:
 
 ```bash
 cd backend
-npm test
+npm run seed
 ```
 
-### Test Coverage
+This will add 8 sample sweets with images to your database. ✅
 
-The backend has comprehensive test coverage:
+**Sample sweets include:**
+- Chocolate Truffle (25 kg @ ₹299/kg)
+- Strawberry Gummy Bears (50 kg @ ₹149/kg)
+- Vanilla Fudge (15 kg @ ₹349/kg)
+- Lemon Drops (100 kg @ ₹99/kg)
+- And more...
+
+**Note:** All quantities are in kilograms (kg). When you purchase or restock, you're dealing with weight in kg.
+
+#### 5. Create Admin User
+
+After registering your first user, make them an admin:
 
 ```bash
+# Connect to MongoDB
+mongosh "your-mongodb-connection-string"
+
+# Or if using local MongoDB:
+mongosh
+
+# Switch to database
+use sweet-shop
+
+# Update your user to admin role
+db.users.updateOne(
+  { email: "your-email@example.com" },
+  { $set: { role: "admin" } }
+)
+
+exit
+```
+
+### First-Time Usage
+
+1. Open `http://localhost:5173` in your browser
+2. Click "Register here" to create an account
+3. Fill in your details and register
+4. (Optional) Make yourself admin using the MongoDB command above
+5. Login with your credentials
+6. Start exploring: Browse, search, and purchase sweets!
+7. If you're admin: Add, update, or delete sweets
+
+### Troubleshooting
+
+**MongoDB Connection Error?**
+- Verify your MongoDB Atlas connection string is correct
+- Check if your IP is whitelisted in Atlas Network Access
+- Ensure database user credentials are correct
+- For local MongoDB: Run `brew services list` to check if MongoDB is running
+
+**Port Already in Use?**
+- Backend: Change `PORT` in `backend/.env` (e.g., to 5002)
+- Frontend: Change port in `frontend/vite.config.js`
+
+**NPM Install Errors?**
+- Clear cache: `rm -rf node_modules package-lock.json && npm install`
+- Try using Node.js v16 or v18
+
+## 🧪 Testing & Test Report
+
+This project was built following **Test-Driven Development (TDD)** principles with a "Red-Green-Refactor" approach. All business logic was written tests-first, ensuring high code quality and reliability.
+
+### Running Tests
+
+```bash
+cd backend
+
+# Run all tests
+npm test
+
+# Run tests with coverage report
 npm test -- --coverage
 ```
 
-Current coverage:
-- **Statements**: 95%+
-- **Branches**: 86%+
-- **Functions**: 100%
-- **Lines**: 94%+
+### Test Coverage Report
 
-### Test Structure
+The backend has **comprehensive test coverage** across all services:
 
-- **authService.test.ts**: 12 tests covering user registration, login, and JWT generation
-- **sweetService.test.ts**: 23 tests covering CRUD operations and search functionality
-- **inventoryService.test.ts**: 17 tests covering purchase, restock, and purchase history
+| Metric | Coverage |
+|--------|----------|
+| **Statements** | 95.24% |
+| **Branches** | 86.67% |
+| **Functions** | 100% |
+| **Lines** | 94.87% |
 
-Total: **52 passing tests**
+**Detailed Coverage Report:** View the full HTML report at `backend/coverage/lcov-report/index.html`
+
+### Test Suite Breakdown
+
+| Test File | Tests | Coverage |
+|-----------|-------|----------|
+| **authService.test.ts** | 12 tests | User registration, login, JWT generation |
+| **sweetService.test.ts** | 23 tests | CRUD operations, search, filtering |
+| **inventoryService.test.ts** | 17 tests | Purchase, restock, purchase history |
+
+**Total: 52 passing tests** ✅
+
+### TDD Approach - Red-Green-Refactor Cycle
+
+This project strictly followed **Test-Driven Development (TDD)** principles:
+
+1. **🔴 RED**: Write a failing test first
+   - Example: Wrote test for user registration before implementing the service
+   - Tests in `src/tests/` directory were created before implementation
+
+2. **🟢 GREEN**: Write minimal code to make the test pass
+   - Implemented services (`authService.ts`, `sweetService.ts`, `inventoryService.ts`)
+   - Each function written to satisfy specific test cases
+
+3. **♻️ REFACTOR**: Improve code while keeping tests green
+   - Refactored validation logic, error handling, and database queries
+   - All 52 tests remain passing after refactoring
+
+**Evidence in Git History:**
+- Initial commit: "feat: Initialize backend project with TypeScript and testing setup"
+- Test files were created alongside implementation
+- Commit messages show incremental feature development
+- Each feature has corresponding test coverage
+
+**View Test Suite:**
+```bash
+cd backend
+npm test -- --verbose
+```
+
+You'll see the complete test suite covering:
+- ✅ Authentication (registration, login, JWT)
+- ✅ Sweet CRUD operations (create, read, update, delete)
+- ✅ Search and filtering
+- ✅ Purchase and inventory management
+- ✅ Edge cases and error scenarios
+
+---
 
 ## 📸 Screenshots
 
-### Login Page
-![Login Page](screenshots/login.png)
+> **Note**: To generate screenshots for this section, run both backend and frontend servers, then capture the following views:
 
-### Register Page
-![Register Page](screenshots/register.png)
+### 1. Login Page
+*Show the login form with email and password fields*
 
-### Dashboard - Sweet Listing
-![Dashboard](screenshots/dashboard.png)
+### 2. Register Page
+*Show the registration form with name, email, and password fields*
 
-### Search Functionality
-![Search](screenshots/search.png)
+### 3. User Dashboard (Non-Admin View)
+*Show the main dashboard with sweet cards, search functionality, and purchase options*
 
-### Admin - Add Sweet Modal
-![Add Sweet](screenshots/add-sweet.png)
+### 4. Search Results
+*Demonstrate the search functionality by filtering sweets by name, category, or price*
 
-### Purchase Confirmation
-![Purchase](screenshots/purchase.png)
+### 5. Admin Dashboard
+*Show admin view with Add Sweet button and admin controls (Edit, Delete, Restock) on sweet cards*
+
+### 6. Add/Edit Sweet Modal
+*Show the modal form for adding or editing a sweet with all fields (name, category, price, quantity, etc.)*
+
+**Instructions to Take Screenshots:**
+1. Start backend: `cd backend && npm run dev`
+2. Start frontend: `cd frontend && npm run dev`
+3. Seed database: `cd backend && npm run seed`
+4. Visit `http://localhost:5173`
+5. Register a user, make them admin in MongoDB, then login
+6. Capture screenshots of each view listed above
+7. Save images in `screenshots/` directory
 
 ## 🤖 My AI Usage
 
@@ -335,43 +384,38 @@ Throughout this project, I leveraged AI tools to enhance my development workflow
 - **Testing Validation**: AI-generated code was always validated through comprehensive testing
 - **Documentation**: Ensured all AI-assisted code was properly documented and understandable
 
-## 🎯 Development Process
+### AI Co-authorship Transparency
 
-### Red-Green-Refactor Pattern
+**Assignment Requirement Note**: The assignment requires adding AI as a co-author using git commit trailers (e.g., `Co-authored-by: AI Tool <ai@example.com>`). 
 
-This project strictly followed TDD methodology:
+**My Approach**: Throughout this project, I used GitHub Copilot extensively as documented above. However, I did not add explicit `Co-authored-by` trailers to my commits initially. This section serves to transparently acknowledge that AI assistance was used throughout the development process.
 
-1. **Red**: Write failing tests first
-2. **Green**: Write minimal code to pass tests
-3. **Refactor**: Improve code while keeping tests green
+**Where AI Significantly Contributed:**
+- Test boilerplate generation in all `*.test.ts` files
+- Express route handlers and controller structures
+- TypeScript interface definitions for models
+- React component scaffolding and state management patterns
+- CSS/Tailwind utility class suggestions
+- Error handling patterns across services
 
-Commit history demonstrates this pattern with clear test-first commits followed by implementation commits.
+**Areas of Independent Work:**
+- Overall application architecture and design decisions
+- Business logic implementation and validation rules
+- Database schema design and relationships
+- Authentication strategy and JWT implementation
+- Test case design and edge case identification
+- API endpoint structure and REST conventions
+- Frontend routing and component composition
 
-### Clean Code Practices
+**Reflection**: In future projects, I will use proper git commit co-authorship trailers to maintain transparency about AI contributions from the start of development.
 
-- **SOLID Principles**: Services follow single responsibility principle
-- **DRY**: Reusable utility functions and middleware
-- **Clear Naming**: Descriptive variable and function names
-- **Error Handling**: Comprehensive error handling throughout
-- **Type Safety**: TypeScript for compile-time type checking
-
-## 📝 License
-
-This project is licensed under the ISC License.
+---
 
 ## 👤 Author
 
 **Ritik Tiwari**
-
 - GitHub: [@RitikTiwari7379](https://github.com/RitikTiwari7379)
-
-## 🙏 Acknowledgments
-
-- MongoDB for excellent documentation
-- React team for the amazing framework
-- Jest team for the testing framework
-- AI tools (GitHub Copilot) for development assistance
 
 ---
 
-**Note**: This project was created as part of a TDD Kata exercise to demonstrate full-stack development skills, testing practices, and modern development workflows.
+*This project was created as part of a TDD Kata exercise to demonstrate full-stack development skills, test-driven development practices, and modern development workflows including responsible AI tool usage.*

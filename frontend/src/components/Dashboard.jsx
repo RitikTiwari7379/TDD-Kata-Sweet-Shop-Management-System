@@ -10,7 +10,7 @@ import {
 } from '../services/sweetService';
 import SweetCard from './SweetCard';
 import AddSweetModal from './AddSweetModal';
-import './Dashboard.css';
+import EditSweetModal from './EditSweetModal';
 
 function Dashboard() {
   const [sweets, setSweets] = useState([]);
@@ -23,6 +23,8 @@ function Dashboard() {
     maxPrice: ''
   });
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedSweet, setSelectedSweet] = useState(null);
   const navigate = useNavigate();
   const user = getCurrentUser();
   const userIsAdmin = isAdmin();
@@ -86,11 +88,16 @@ function Dashboard() {
     }
   };
 
+  const handleEdit = (sweet) => {
+    setSelectedSweet(sweet);
+    setShowEditModal(true);
+  };
+
   const handleRestock = async (sweetId, quantity) => {
-    const restockQty = prompt('Enter quantity to restock:', quantity);
-    if (restockQty && parseInt(restockQty) > 0) {
+    const restockQty = prompt('Enter quantity to restock (in kg):', quantity);
+    if (restockQty && parseFloat(restockQty) > 0) {
       try {
-        await restockSweet(sweetId, parseInt(restockQty));
+        await restockSweet(sweetId, parseFloat(restockQty));
         alert('Restock successful!');
         loadSweets();
       } catch (err) {
@@ -115,106 +122,175 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1>🍬 Sweet Shop</h1>
-          <div className="user-info">
-            <span>Welcome, {user?.name}!</span>
-            {userIsAdmin && <span className="admin-badge">Admin</span>}
-            <button onClick={handleLogout} className="btn-logout">
-              Logout
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+      {/* Header */}
+      <header className="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-2xl">🍬</span>
+              </div>
+              <div>
+                <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Sweet Shop
+                </h1>
+                <p className="text-xs text-gray-500">Your favorite treats await</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-semibold text-gray-700">{user?.name}</p>
+                {userIsAdmin && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-white">
+                    👑 Admin
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all"
+              >
+                <span>Logout</span>
+                <span>🚪</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="dashboard-content">
-        <div className="search-section">
-          <h2>Search Sweets</h2>
-          <form onSubmit={handleSearch} className="search-form">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Search Section */}
+        <div className="card p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-display font-bold text-gray-800 flex items-center">
+              <span className="mr-2">🔍</span>
+              Search Sweets
+            </h2>
+            {userIsAdmin && (
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="btn-primary flex items-center space-x-2"
+              >
+                <span>➕</span>
+                <span>Add Sweet</span>
+              </button>
+            )}
+          </div>
+          <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <input
               type="text"
-              placeholder="Search by name..."
+              placeholder="Sweet name..."
               value={searchParams.name}
-              onChange={(e) =>
-                setSearchParams({ ...searchParams, name: e.target.value })
-              }
+              onChange={(e) => setSearchParams({ ...searchParams, name: e.target.value })}
+              className="input-field"
             />
             <input
               type="text"
               placeholder="Category..."
               value={searchParams.category}
-              onChange={(e) =>
-                setSearchParams({ ...searchParams, category: e.target.value })
-              }
+              onChange={(e) => setSearchParams({ ...searchParams, category: e.target.value })}
+              className="input-field"
             />
             <input
               type="number"
               placeholder="Min price..."
               value={searchParams.minPrice}
-              onChange={(e) =>
-                setSearchParams({ ...searchParams, minPrice: e.target.value })
-              }
+              onChange={(e) => setSearchParams({ ...searchParams, minPrice: e.target.value })}
+              className="input-field"
             />
             <input
               type="number"
               placeholder="Max price..."
               value={searchParams.maxPrice}
-              onChange={(e) =>
-                setSearchParams({ ...searchParams, maxPrice: e.target.value })
-              }
+              onChange={(e) => setSearchParams({ ...searchParams, maxPrice: e.target.value })}
+              className="input-field"
             />
-            <button type="submit" className="btn-search">
-              Search
-            </button>
-            <button
-              type="button"
-              onClick={handleClearSearch}
-              className="btn-clear"
-            >
-              Clear
-            </button>
+            <div className="flex space-x-2">
+              <button type="submit" className="btn-primary flex-1">
+                Search
+              </button>
+              <button
+                type="button"
+                onClick={handleClearSearch}
+                className="btn-secondary"
+              >
+                Clear
+              </button>
+            </div>
           </form>
         </div>
 
-        {userIsAdmin && (
-          <div className="admin-actions">
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="btn-add"
-            >
-              + Add New Sweet
-            </button>
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
+            <div className="flex items-center">
+              <span className="text-xl mr-2">⚠️</span>
+              <span className="font-medium">{error}</span>
+            </div>
           </div>
         )}
 
-        {error && <div className="error-message">{error}</div>}
-
+        {/* Loading State */}
         {loading ? (
-          <div className="loading">Loading sweets...</div>
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
+              <p className="text-gray-600 font-semibold">Loading delicious sweets...</p>
+            </div>
+          </div>
         ) : sweets.length === 0 ? (
-          <div className="no-sweets">No sweets found</div>
+          <div className="card p-12 text-center">
+            <div className="text-6xl mb-4">🍬</div>
+            <h3 className="text-2xl font-display font-bold text-gray-800 mb-2">No sweets found</h3>
+            <p className="text-gray-600 mb-6">
+              {userIsAdmin
+                ? 'Get started by adding your first sweet!'
+                : 'Check back soon for new treats!'}
+            </p>
+            {userIsAdmin && (
+              <button onClick={() => setShowAddModal(true)} className="btn-primary">
+                Add Your First Sweet
+              </button>
+            )}
+          </div>
         ) : (
-          <div className="sweets-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {sweets.map((sweet) => (
               <SweetCard
                 key={sweet._id}
                 sweet={sweet}
                 onPurchase={handlePurchase}
+                onEdit={userIsAdmin ? handleEdit : null}
                 onDelete={userIsAdmin ? handleDelete : null}
                 onRestock={userIsAdmin ? handleRestock : null}
               />
             ))}
           </div>
         )}
-      </div>
+      </main>
 
+      {/* Modals */}
       {showAddModal && (
         <AddSweetModal
           onClose={() => setShowAddModal(false)}
           onSuccess={() => {
             setShowAddModal(false);
+            loadSweets();
+          }}
+        />
+      )}
+
+      {showEditModal && selectedSweet && (
+        <EditSweetModal
+          sweet={selectedSweet}
+          onClose={() => {
+            setShowEditModal(false);
+            setSelectedSweet(null);
+          }}
+          onSuccess={() => {
+            setShowEditModal(false);
+            setSelectedSweet(null);
             loadSweets();
           }}
         />

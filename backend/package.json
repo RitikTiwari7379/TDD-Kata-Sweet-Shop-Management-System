@@ -9,7 +9,8 @@
     "build": "tsc",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "migrate": "ts-node src/config/migrate.ts"
+    "migrate": "ts-node src/config/migrate.ts",
+    "seed": "ts-node src/scripts/seedData.ts"
   },
   "keywords": ["sweet-shop", "express", "mongodb", "typescript"],
   "author": "Ritik Tiwari",
