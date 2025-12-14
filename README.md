@@ -300,34 +300,26 @@ You'll see the complete test suite covering:
 
 ## 📸 Screenshots
 
-> **Note**: To generate screenshots for this section, run both backend and frontend servers, then capture the following views:
-
 ### 1. Login Page
-*Show the login form with email and password fields*
+<img width="1470" height="884" alt="6fd9b3ae03cfe82abb378da7634b58e2292f3c21daea48c21838a97e7d99ca6b" src="https://github.com/user-attachments/assets/4b5b77fc-00f2-4dcb-adb2-59e368783097" />
 
 ### 2. Register Page
-*Show the registration form with name, email, and password fields*
+<img width="1470" height="885" alt="2536d44b048f26ff3e190764d99d50f93b41f2d21ac63082080ed334988ee175" src="https://github.com/user-attachments/assets/2265fe48-c769-46d0-a183-64e3a89065db" />
 
 ### 3. User Dashboard (Non-Admin View)
-*Show the main dashboard with sweet cards, search functionality, and purchase options*
+<img width="1470" height="885" alt="4d3e6b45f53df5a4d81b32b929ca48cccaee9dd74853cd213f46a3a77d6b0b33" src="https://github.com/user-attachments/assets/fdc3ab08-451f-452e-bb6d-c0edb967f1fa" />
 
 ### 4. Search Results
-*Demonstrate the search functionality by filtering sweets by name, category, or price*
+<img width="1470" height="885" alt="5f22cac0728a6177cda9f456d9f60a7bd104d3f77b3d21a038c9b68009ebca9b" src="https://github.com/user-attachments/assets/0a4fa577-730f-474e-a4c1-a72ab15288ef" />
 
 ### 5. Admin Dashboard
-*Show admin view with Add Sweet button and admin controls (Edit, Delete, Restock) on sweet cards*
+<img width="1470" height="884" alt="7a463e7648d87ed9bf62beea1ff30663639b63f8a277f680a7975dccbb2119bd" src="https://github.com/user-attachments/assets/dedc12b2-9493-48e8-a8a9-f55d58c2c92c" />
 
-### 6. Add/Edit Sweet Modal
-*Show the modal form for adding or editing a sweet with all fields (name, category, price, quantity, etc.)*
+### 6. Add Sweet Modal
+<img width="1470" height="886" alt="6262f1f4e1779443ed243e6cfd7b4ef283fe2c80dcc765d30715ca880a7ffa45" src="https://github.com/user-attachments/assets/c516dd1e-cfc9-41a6-8ee0-2c07647520f7" />
 
-**Instructions to Take Screenshots:**
-1. Start backend: `cd backend && npm run dev`
-2. Start frontend: `cd frontend && npm run dev`
-3. Seed database: `cd backend && npm run seed`
-4. Visit `http://localhost:5173`
-5. Register a user, make them admin in MongoDB, then login
-6. Capture screenshots of each view listed above
-7. Save images in `screenshots/` directory
+### 7. Edit Sweet Modal
+<img width="1470" height="887" alt="e1b2f05dd522a1916714550b7138c6e722f557ddb0996cf216716d22f9feb097" src="https://github.com/user-attachments/assets/d2438174-f61e-470a-9d25-02945baf4d95" />
 
 ## 🤖 My AI Usage
 
