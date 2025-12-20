@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 
-- **Live Project Link: [https://sweet-shop-management509.vercel.app/](https://sweet-shop-management509.vercel.app/)
+- Live Project Link: [https://sweet-shop-management509.vercel.app/](https://sweet-shop-management509.vercel.app/)
 
 ### 🔑 Admin Test Credentials
 
@@ -14,8 +14,6 @@ For security reasons, admin role assignment is restricted and managed directly i
 Email: xyz@gmail.com
 Password: 123456
 ```
-
-**Note**: These credentials will be removed after evaluation to prevent unauthorized admin access.
 
 **Why not allow admin registration through UI?**  
 Allowing users to self-assign admin roles via a registration form would be a critical security vulnerability. Admin privileges should only be granted through:
